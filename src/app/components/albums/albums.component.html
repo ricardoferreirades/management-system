@@ -1,0 +1,39 @@
+<!-- list of albums -->
+<div 
+    class="album-box__item album-box__w-4"
+    *ngFor="let album of albums; index as i">
+    
+    <div class="inline-box w-8">
+        <mat-checkbox
+        class="custom-checkbox"
+        color="primary"
+        [(ngModel)]="album.selected"
+        (change)="onCheckChange(album.id)">{{album.title}}</mat-checkbox>
+    </div>
+
+    <div class="inline-box w-2">
+        <p class="album-box__item__photos">{{album.imagesLength ? album.imagesLength.length : 0}} Photos</p>
+    </div>
+
+</div>
+
+<!-- message to select an album -->
+<div *ngIf="!albums.length" class="centered-text">
+    <p>Select user first</p>
+</div>
+
+<!-- form to add a fake album -->
+<div *ngIf="showAddAlbum" class="add-album">
+    <h4 class="add-album__title">Novo album</h4>
+    <form
+        class="example-form"
+        [formGroup]="addAlbumForm"
+        (ngSubmit)="onSubmit(addAlbumForm.value)">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Album name" formControlName="name">
+        </mat-form-field>
+
+        <button mat-button color="primary" [disabled]="addAlbumForm.status === 'INVALID'" type="submit">Confirm</button>
+        <button mat-button type="button" (click)="clearAndClose()">Cancel</button>
+    </form>
+</div>

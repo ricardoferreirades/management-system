@@ -1,0 +1,23 @@
+<!-- user template -->
+<div
+  class="user-item"
+  [ngClass]="{'active': isActive}">
+  <div class="user-avatar-container">
+    <figure class="user-avatar">
+      <img src="./assets/images/user-avatar.jpg" alt="avatar default image.">
+    </figure>
+  </div>
+  
+  <div class="user-info">
+    <p class="user-info__data" [title]="name">
+      {{name}}
+    </p>
+    <p class="user-info__data" [title]="username">
+      {{username}}
+    </p>
+    <p class="user-info__data" [title]="email">
+      {{email}}
+    </p>
+  </div>
+</div>
+<mat-divider class="user-divider" *ngIf="border"></mat-divider>

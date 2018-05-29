@@ -1,0 +1,12 @@
+.album-box__item {
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: .5em;
+}
+
+.album-box__item.album-box__w-4 {
+    width: 25%;
+}
+

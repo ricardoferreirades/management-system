@@ -1,0 +1,14 @@
+<!-- user item component -->
+<div id="user-list">
+  <!-- user item component -->
+  <app-user-item
+    *ngFor="let user of users | searchUser: searchedTerm | sortingUser: orderby; index as i"
+    [name]="user.name"
+    [username]="user.username"
+    [email]="user.email"
+    [border]="i < users.length -1"
+    [id]="user.id"
+    [isActive]="isActive"
+    (click)="onClick(i, user.id)">
+  </app-user-item>
+</div>

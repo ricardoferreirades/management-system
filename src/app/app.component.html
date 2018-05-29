@@ -1,20 +1,101 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<mat-sidenav-container>
+    <!-- sidebar -->
+    <mat-sidenav
+        #drawer
+        mode="side"
+        opened="true">
+        <!-- users component -->
+        <app-users></app-users>
+    </mat-sidenav>
+    <!-- main container -->
+    <mat-sidenav-content>
+        <div class="flex-container">
+            <!-- albums container -->
+            <div class="flex-container__child">
+                <mat-card class="content">
+                    <mat-card-title class="mat-card-title-container">
+                        <h4 class="title">{{albumsLength}} Albums</h4>
+                        <mat-checkbox
+                            color="primary"
+                            [(ngModel)]="allSelectControl"
+                            (change)="selectAll()"
+                            *ngIf="hasAlbums">Select all</mat-checkbox>
+                    </mat-card-title>
+                    
+                    <mat-card-content>
+                        <app-albums
+                            [allSelected]="allSelected"
+                            (unselected)="onUnselected($event)"
+                            (loadedAlbums)="onLoadAlbums($event)"
+                            [showAddAlbum]="showAddAlbum"
+                            (albumAdded)="onAlbumAdd($event)"></app-albums>
+                    </mat-card-content>
 
+                    <button
+                        mat-fab
+                        class="custom-button"
+                        *ngIf="hasAlbums"
+                        (click)="showAddAlbum = !showAddAlbum">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-card>
+            </div>
+
+            <!-- photos container -->
+            <div class="flex-container__child">
+                <mat-card class="content" id="photos">
+                    <mat-card-title class="mat-card-title-container">
+                        <h4 class="title">{{imagesLength}} Photos</h4>
+
+                        <div class="sort-container">
+                            <mat-icon class="sort-action" (click)="isSorting = true" (focusout)="onFocusOut()">
+                                sort
+                            </mat-icon>
+
+                            <ul class="sort-box" *ngIf="isSorting">
+                                <li class="first"><mat-icon>done</mat-icon> <span>Name</span></li>
+                                <li (click)="order = 'cresc'; isSorting = false; orderImages = 'cresc'">
+                                    <mat-icon
+                                    [ngClass]="{'hidden': order !== 'cresc'}"
+                                    >done</mat-icon> <span>A-Z</span></li>
+                                <li (click)="order = 'decresc'; isSorting = false; orderImages = 'decresc'">
+                                    <mat-icon
+                                    [ngClass]="{'hidden': order !== 'decresc'}"
+                                    >done</mat-icon> <span>Z-A</span></li>
+                            </ul>
+                        </div>
+                    </mat-card-title>
+                    <mat-card-content>
+                        <app-images [order]="order" [page]="page" [itemsPerPage]="itemsPerPage" (imagesLoad)="onImagesLoad($event)"></app-images>
+                    </mat-card-content>
+
+                    <!-- pagination area -->
+                    <div class="pagination-container">
+                        <label for="items-per-page">Images per page: </label>
+                        <select id="items-per-page" [(ngModel)]="itemsPerPage">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                     
+                        <!-- custom pagination -->
+                        <pagination-template #p="paginationApi"
+                         (pageChange)="page = $event">
+                            <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+                                <a *ngIf="!p.isFirstPage()" (click)="p.previous()"> <mat-icon>arrow_back_ios</mat-icon> </a>
+                                <a *ngIf="p.isFirstPage()" > <mat-icon>arrow_back_ios</mat-icon> </a>
+                            </div>
+                    
+                            <div class="pagination-next" [class.disabled]="p.isLastPage()">
+                                <a *ngIf="!p.isLastPage()" (click)="p.next()"> <mat-icon>arrow_forward_ios</mat-icon> </a>
+                                <a *ngIf="p.isLastPage()"> <mat-icon>arrow_forward_ios</mat-icon> </a>
+                            </div>
+                        </pagination-template>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

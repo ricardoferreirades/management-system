@@ -1,0 +1,15 @@
+
+  <!-- list of images -->
+  <div class="col-4" *ngFor="let image of images | paginate: { itemsPerPage: itemsPerPage, currentPage: page }; index as i">
+    
+    <figure>
+      <img [src]="image.thumbnailUrl" [alt]="image.title">
+    </figure>
+  
+    <p>{{image.title}}</p>
+  </div>
+
+
+<div *ngIf="!images.length" class="centered-text">
+    <p>Select album first</p>
+</div>

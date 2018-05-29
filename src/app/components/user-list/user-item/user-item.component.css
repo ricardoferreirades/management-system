@@ -1,0 +1,62 @@
+.user-item {
+    padding: 16px 30px;
+    display: block;
+    cursor: pointer;
+}
+
+.user-item:hover, .user-item.active {
+    background: #26A9E0;
+}
+
+.user-item:hover .user-info__data, .user-item.active .user-info__data {
+    color: rgba(255,255, 255, 1);
+}
+
+.user-avatar-container, .user-info {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+}
+
+.user-avatar {
+    padding: 0;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.user-avatar img {
+    width: 100%;
+}
+
+.user-avatar-container {
+    width: 20%;
+}
+
+.user-info {
+    width: 80%;
+}
+
+.user-info__data {
+    max-width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    color:rgba(0, 0, 0, 0.54)
+}
+
+.user-info__data:nth-child(1) {
+    color:rgba(0, 0, 0, 0.87)
+}
+
+.user-divider {
+    width: 85%;
+    margin: 0 auto;
+}

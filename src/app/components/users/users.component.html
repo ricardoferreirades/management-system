@@ -1,0 +1,58 @@
+<!-- sidebar template -->
+<div class="sidebar">
+  <div class="sidebar-top">
+      <h3 class="sidebar-top__title">Users</h3>
+      <!-- sidebar actions -->
+      <div class="sidebar-top__actions">
+          <!-- filter button -->
+          <button mat-button (click)="isSortingUser = !isSortingUser">
+              <mat-icon>filter_list</mat-icon>
+
+              <!-- filter container -->
+              <span
+                *ngIf="isSortingUser"
+                class="user-filter">
+                  <span (click)="orderby = 'name'">
+                      <mat-icon [ngClass]="{'hidden': orderby !== 'name'}">check</mat-icon> <span class="text">Name</span>
+                    </span>
+                    <span (click)="orderby = 'username'">
+                        <mat-icon [ngClass]="{'hidden': orderby !== 'username'}">check</mat-icon> <span class="text">Username</span>
+                    </span>
+                    <span (click)="orderby = 'email'">
+                        <mat-icon [ngClass]="{'hidden': orderby !== 'email'}">check</mat-icon> <span class="text">Email</span>
+                  </span>
+              </span>
+          </button>
+  
+          <!-- search control -->
+          <button
+            mat-button
+            (click)="isSearch = !isSearch">
+              <mat-icon>search</mat-icon>
+          </button>
+
+          <!-- search form -->
+          <div 
+            *ngIf="isSearch"
+            class="search-user">
+                <mat-icon
+                    (click)="isSearch = !isSearch; serchedTerm=''"
+                    class="close-icon">arrow_back</mat-icon>
+
+                <mat-form-field class="example-full-width">
+                    <input
+                        matInput
+                        placeholder="Name"
+                        [(ngModel)]="serchedTerm">
+                </mat-form-field>
+                
+                <mat-icon
+                    (click)="serchedTerm=''"
+                    class="clear-icon">close</mat-icon>
+          </div>
+      </div>
+  </div>
+  
+  <!-- users list component -->
+  <app-user-list [orderby]="orderby" [searchedTerm]="serchedTerm"></app-user-list>
+</div>
